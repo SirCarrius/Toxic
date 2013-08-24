@@ -19,21 +19,23 @@ _____________
                 |             (DRUG is a string of keywords, search is       (Searching for NULL provides a negative
                 |             inclusive OR over subsets of those keywords.)   control.)
                 |                            |                                           |
-                |                            |                                           |
                 |                            V                                           V
                 |                         Each tweet is stored as an element in a JSON array
                 |          
-                |            
-                |          
                 |----------Call "ruby ** NB_classifier_alexandru.rb**"
                 |                         |
-                V                         |
-                            --------------|-----------------------------------    
-                            |                       |                        |
-                            V                       V                        V
-                         Train                  Develop                   Evaluate
-                         =====                  =======                   ========
-                    0: no 
-                    1: yes
-                    2: maybe
-                         
+                |           --------------|-------------------------------------    
+                |           |                         |                        |
+                |           V                         V                        V
+                |        Train                      Test                   Evaluate
+                |    _________________________    __________________     ______________
+                |    | 0: not about drinking |    |...             |    |Apply to new  |
+                |    | 1: about drinking     |    |                |    |data sets     |
+                |    | 2: maybe              |    |                |    |              |
+                |    |_______________________|    |________________|    |______________|
+                |               |                          |                    
+                |       ||Curated Data Set||     ||Second Curated Set||
+                |
+                |     
+                |
+                V
