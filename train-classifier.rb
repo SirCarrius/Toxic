@@ -21,12 +21,6 @@ sheet.each do |row|
 	end
 end
 
-#Print out some examples
-puts toxifier.classify(' being able to talk to my manager about boys and alcohol')
-puts toxifier.classify(' 80party  party  awesomeness  citylife  ohshit  alcohol  drinking  smile http   t co tq6pgur2qn')
-puts toxifier.classify(' i think alcohol is still in my system')
-
-
 #Persist classifier on database
 toxifier.save_state
 
