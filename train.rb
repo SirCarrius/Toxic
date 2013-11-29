@@ -1,5 +1,6 @@
 require 'nbayes'
 require 'spreadsheet'
+require 'awesome_print'
 
 #returns tweet in array form with stopwords taken out
 #takes in the parameters
@@ -41,7 +42,7 @@ stop = File.readlines("stopwords")
 
 rating = {'0' => :no, '1' => :yes, '2' =>:maybe}
 #classifiers.txt contains the SUBSTANCE_geo.txt files delimited by |
-txtfiles = File.read('classifiers.txt').split('|')
+txtfiles = File.read('classifiers.txt').split(' |')
 txtfiles.each do |spread|
      book = Spreadsheet.open spread;
      sheet1 = book.worksheet 0

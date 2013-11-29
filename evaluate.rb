@@ -2,7 +2,7 @@ require 'nbayes'
 require 'awesome_print'
 require 'json'
 
-filename = 'classifier.nb'
+filename = 'classifier_new.nb'
 alcohol = NBayes::Base.from(filename)
 
 tokens = "I am drinking beer right now".split(/\s+/)
@@ -24,6 +24,6 @@ end
 
 ap results
 
-File.open('validation-results.json','w') do |f|
+File.open('validation-results_.json','w') do |f|
   f.write(results.to_json)
 end
