@@ -49,11 +49,12 @@ txtfiles.each do |spread|
      sheet1.each do |row|
           if !row[1].nil?
                #taking out stopwords
-               clean_tweet = createStrippedTweet(row[0],stop)
+               clean_tweet = createStrippedTweet(row[0],stop).reject!(&:empty?)
                #creating ngrams
                bigrams = createNgram(clean_tweet,2)
+               trigrams = createNgram(clean_tweet,3)
                #the training
-               alcohol.train(bigrams,rating[row[1].to_i.to_s])
+               alcohol.train(bigrams | clean_tweet | trigrams,rating[row[1].to_i.to_s])
           end
      end
 end
