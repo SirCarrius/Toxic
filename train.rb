@@ -1,7 +1,8 @@
 require 'nbayes'
 require 'spreadsheet'
 require 'awesome_print'
-
+require 'engtagger'
+ 
 #returns tweet in array form with stopwords taken out
 #takes in the parameters
 #tweet:tweet from spreadsheet
@@ -18,7 +19,7 @@ def createStrippedTweet(tweet,stopwords)
      end
      return stripped_tweet   
 end
-
+ 
 #returns every possible combination of n words in a tweet
 #takes in parameters
 #tweet: tweet in array form
@@ -36,13 +37,13 @@ def createNgram(tweet,n)
      end
      return ngram_combo
 end
-
+ 
 alcohol = NBayes::Base.new
 stop = File.readlines("stopwords")
-
+ 
 rating = {'0' => :no, '1' => :yes, '2' =>:maybe}
 #classifiers.txt contains the SUBSTANCE_geo.txt files delimited by |
-txtfiles = File.read('classifiers.txt').split(' |')
+txtfiles = File.read('classifiers.txt').split('|')
 txtfiles.each do |spread|
      book = Spreadsheet.open spread;
      sheet1 = book.worksheet 0
@@ -53,10 +54,13 @@ txtfiles.each do |spread|
                #creating ngrams
                bigrams = createNgram(clean_tweet,2)
                trigrams = createNgram(clean_tweet,3)
+               #tagging part of speech
+               tgr = EngTagger.new
+               readable_ary = (tgr.get_readable(row[0])).split(" ")
                #the training
-               alcohol.train(bigrams | clean_tweet | trigrams,rating[row[1].to_i.to_s])
+               alcohol.train(bigrams | clean_tweet | trigrams | readable_ary,rating[row[1].to_i.to_s])
           end
      end
 end
-
+ 
 alcohol.dump('classifier_new.nb')
