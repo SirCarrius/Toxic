@@ -43,12 +43,13 @@ for i in xrange(len(corpus)):
 
 M = similarity
 M += similarity.transpose()
-M = 1-M
+M[np.diag_indices(len(corpus))] = 1
+np.savetxt('similarity-matrix.tsv',M,fmt='%.04f',delimiter='\t')
 print time()-start
 
-fig = plt.figure()
-ax = fig.add_subplot(111)
+fig,(dist,ax) = plt.subplots(nrows=1,ncols=2)
 cax = ax.imshow(M, interpolation = 'nearest', aspect='auto')
 plt.colorbar(cax)
+dist.hist(np.ravel(similarity[similarity!=0]),bins=200,histtype='step',color='k', cumulative=True)
 plt.tight_layout()
 plt.show()
