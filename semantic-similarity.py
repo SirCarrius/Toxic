@@ -20,7 +20,7 @@ similarity = np.zeros((len(corpus),len(corpus)))
 
 start = time()
 for i in xrange(len(corpus)):
-	for j in xrange(len(corpus)):
+	for j in xrange(i):
 	 	one = corpus[i].split()
 	 	two = corpus[j].split()
 	 	s = 0
@@ -40,11 +40,15 @@ for i in xrange(len(corpus)):
 			s += sim if sim else 0
 	 	s /= float(len(one)*len(two))
  		similarity[i,j] = s
+
+M = similarity
+M += similarity.transpose()
+M = 1-M
 print time()-start
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
-cax = ax.imshow(similarity, interpolation = 'nearest', aspect='auto')
+cax = ax.imshow(M, interpolation = 'nearest', aspect='auto')
 plt.colorbar(cax)
 plt.tight_layout()
 plt.show()
