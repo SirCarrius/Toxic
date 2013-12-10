@@ -1,5 +1,6 @@
 import itertools
 import string
+import json
 
 import numpy as np
 
@@ -9,6 +10,18 @@ from termcolor import colored
 
 morphy_tag = {'NN':wordnet.NOUN,'JJ':wordnet.ADJ,'VB':wordnet.VERB,'RB':wordnet.ADV}
 listify = lambda item: item if type(item) == type([]) and item != None else list(item)
+
+filename = 'semantic-distance-database.json'
+READ = 'rb'
+db = json.load(open(filename,READ))
+
+def lookup(one_sense,another_sense):
+	#construct query
+	queries =  ['%s-%s'%(one_sense,another_sense),'%s-%s'%(another_sense,one_sense)]
+	if any([query in db for query in queries]):
+		return db[query]
+	else:
+		return None
 
 class SemanticWord(object):
 
@@ -20,7 +33,8 @@ class SemanticWord(object):
 
 	def __sub__(self,other):
 		if self.synset and other.synset:
-			similarities = filter(None,[one.path_similarity(two) for one in self.synset for two in other.synset])  
+			similarities = filter(None,[one.path_similarity(two) if not lookup(self.word,other.word) else lookup(self.word,other.word)
+				 for one in self.synset for two in other.synset])  
 			return 1-np.average(similarities) if similarities != [] else None
 		else:
 			return None

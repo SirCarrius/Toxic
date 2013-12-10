@@ -16,7 +16,7 @@ with open(fname) as f:
 	db = [string.strip() 
 			for string in f.readlines()[0].split(',')]
 
-corpus = random.sample(db,40)
+corpus = db#random.sample(db,40)
 similarity = np.zeros((len(corpus),len(corpus)))
 
 #TODO filter out stop words
