@@ -13,15 +13,19 @@ listify = lambda item: item if type(item) == type([]) and item != None else list
 
 filename = 'semantic-distance-database.json'
 READ = 'rb'
+WRITE = 'wb'
 db = json.load(open(filename,READ))
 
 def lookup(one_sense,another_sense):
 	#construct query
-	queries =  ['%s-%s'%(one_sense,another_sense),'%s-%s'%(another_sense,one_sense)]
-	if any([query in db for query in queries]):
-		return db[query]
-	else:
-		return None
+	queries =  ['%s-%s'%(one_sense.word,another_sense.word),'%s-%s'%(another_sense.word,one_sense.word)]
+	if not any([query in db for query in queries]):
+		similarity = np.average(filter(None,[a.path_similarity(b) 
+					for a,b in itertools.combinations(one_sense.synset+another_sense.synset,2)]))
+		distance = 1-similarity if similarity else None #But now None means both no distance and not found
+		db[query] = distance
+	return db[query]
+		
 
 class SemanticWord(object):
 
@@ -32,12 +36,12 @@ class SemanticWord(object):
 		self.orphan = not self.synset
 
 	def __sub__(self,other):
-		if self.synset and other.synset:
-			similarities = filter(None,[one.path_similarity(two) if not lookup(self.word,other.word) else lookup(self.word,other.word)
-				 for one in self.synset for two in other.synset])  
-			return 1-np.average(similarities) if similarities != [] else None
+		if self.synset and other.synset: 
+			return 0 if self.word == other.word else lookup(self,other)
 		else:
 			return None
 
 	def __repr__(self):
 		return 'word: %s \n sense: %s'%(self.word,pformat(self.synset) if not self.orphan else 'Not in WordNet')
+
+json.dump(db,open(filename,WRITE))

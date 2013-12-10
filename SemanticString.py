@@ -24,7 +24,9 @@ class SemanticString(object):
 		return len(filter(None,self.synsets)) if len(filter(None,self.synsets)) > 0 else None
 
 	def __sub__(self,other):
-		similarities = filter(None,[self.tokens[i] - other.tokens[j] for i in xrange(len(self.tokens)) for j in xrange(len(other.tokens))])
+		similarities = np.array(filter(None,[self.tokens[i] - other.tokens[j] 
+							for i in xrange(len(self.tokens)) for j in xrange(len(other.tokens))]))
+		similarities = similarities[~np.isnan(similarities)]
 		return np.average(similarities) if similarities != [] else None
 
 	def __repr__(self):
