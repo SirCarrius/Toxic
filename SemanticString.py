@@ -12,9 +12,10 @@ from termcolor import colored
 punctuation = set(string.punctuation) #Can make more efficient with a translator table
 
 class SemanticString(object):
-	def __init__(self, text):
+	def __init__(self, text,db):
 		self.text = text
-		self.tokens = [sw.SemanticWord(token,part_of_speech) 
+		self.db = db
+		self.tokens = [sw.SemanticWord(token,part_of_speech,self.db) 
 						for token,part_of_speech in pos_tag(word_tokenize(text))
 						if token not in punctuation]			
 		self.tokens = filter(lambda token: not token.orphan,self.tokens)
