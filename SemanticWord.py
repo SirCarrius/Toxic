@@ -23,7 +23,6 @@ def lookup(one_sense,another_sense,db):
 			similarity = np.average(filter(None,[a.path_similarity(b) 
 						for a,b in itertools.combinations(one_sense.synset+another_sense.synset,2)]))
 			distance = 1-similarity if similarity else None #But now None means both no distance and not found
-			print query
 			db[query] = distance
 	return db[query]
 
@@ -37,7 +36,7 @@ class SemanticWord(object):
 		self.db = lookuptable
 
 	def __sub__(self,other):
-		if self.synset and other.synset: 
+		if self.synset and other.synset and self.part_of_speech == other.part_of_speech: 
 			return 0 if self.word == other.word else lookup(self,other,self.db)
 		else:
 			return None

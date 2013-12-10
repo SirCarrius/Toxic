@@ -25,10 +25,13 @@ class SemanticString(object):
 		return len(filter(None,self.synsets)) if len(filter(None,self.synsets)) > 0 else None
 
 	def __sub__(self,other):
-		similarities = np.array(filter(None,[self.tokens[i] - other.tokens[j] 
-							for i in xrange(len(self.tokens)) for j in xrange(len(other.tokens))]))
-		similarities = similarities[~np.isnan(similarities)]
-		return np.average(similarities) if similarities != [] else None
+		if self.text == other.text:
+			return 0
+		else:
+			similarities = np.array(filter(None,[self.tokens[i] - other.tokens[j] 
+								for i in xrange(len(self.tokens)) for j in xrange(len(other.tokens))]))
+			similarities = similarities[~np.isnan(similarities)]
+		return 1-np.average(similarities) if similarities != [] else None
 
 	def __repr__(self):
 		return  '%s--> %s'%(colored(self.text,'red'),colored(' '.join([token.word for token in self.tokens]),'green')) +'\n'+'\n'.join([repr(token) for token in self.tokens])
