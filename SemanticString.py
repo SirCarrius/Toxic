@@ -9,6 +9,9 @@ from nltk.corpus import wordnet
 from pprint import pprint
 from termcolor import colored
 
+READ = 'rb'
+stopwords = open('stopwords',READ).readlines()
+
 punctuation = set(string.punctuation) #Can make more efficient with a translator table
 
 class SemanticString(object):
@@ -17,7 +20,7 @@ class SemanticString(object):
 		self.db = db
 		self.tokens = [sw.SemanticWord(token,part_of_speech,self.db) 
 						for token,part_of_speech in pos_tag(word_tokenize(text))
-						if token not in punctuation]			
+						if token not in punctuation and token not in stopwords]			
 		self.tokens = filter(lambda token: not token.orphan,self.tokens)
 
 		self.synsets = [token.synset for token in self.tokens]

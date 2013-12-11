@@ -19,7 +19,6 @@ with open(fname) as f:
 corpus = db#random.sample(db,40)
 similarity = np.zeros((len(corpus),len(corpus)))
 
-#TODO filter out stop words
 #TODO filter out words with low tf-idf
 
 start = time()

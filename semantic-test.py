@@ -12,10 +12,12 @@ from nltk.corpus import wordnet
 test_string = "Colorless green ideas sleep furiously."
 other_string = "I like drug stores."
 start = time()
-#Drop down to testing Semantic Word
+
 d1 = SemanticString(test_string,db)
 d2 = SemanticString(other_string,db)
 
 print d1-d2
+print d1
+print d2
 json.dump(db,open(filename,WRITE))	
 print time()-start
