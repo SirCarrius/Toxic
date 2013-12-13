@@ -1,23 +1,38 @@
 import json
-from time import time
+import itertools
 
-filename = 'semantic-distance-database.json'
+from time import time
+from pprint import pprint
+from src.SemanticString import SemanticString
+from nltk.corpus import wordnet
+from termcolor import colored 
+
+filename = './data/semantic-distance-database.json'
 READ = 'rb'
 WRITE = 'wb'
+APPEND = 'a+'
 db = json.load(open(filename,READ))
 
-from SemanticString import SemanticString
-from nltk.corpus import wordnet
-
-test_string = "Colorless green ideas sleep furiously."
-other_string = "I like drug stores."
+strings = ["Colorless green ideas sleep furiously.","I like drug stores."]
 start = time()
 
-d1 = SemanticString(test_string,db)
-d2 = SemanticString(other_string,db)
 
-print d1-d2
-print d1
-print d2
+
+print('/----------------Beginning test ------------\\')
+
+for one in strings:
+	for two in strings:
+
+		d1 = SemanticString(one,db)
+		d2 = SemanticString(two,db)
+
+		print '|%s|'%(repr(d1))
+		print '|%s|'%(repr(d2))
+
+		print '|Semantic distance between them: %.04f |'%(d1-d2)
+
+print '---'
 json.dump(db,open(filename,WRITE))	
-print time()-start
+print '|Duration %.04f s|'%(time()-start)
+print('\----------------Finished test ------------/')
+

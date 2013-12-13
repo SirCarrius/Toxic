@@ -10,7 +10,7 @@ from pprint import pprint
 from termcolor import colored
 
 READ = 'rb'
-stopwords = open('stopwords',READ).readlines()
+stopwords = open('./data/stopwords',READ).readlines()
 
 punctuation = set(string.punctuation) #Can make more efficient with a translator table
 
@@ -37,4 +37,4 @@ class SemanticString(object):
 		return 1-np.average(similarities) if similarities != [] else None
 
 	def __repr__(self):
-		return  '%s--> %s'%(colored(self.text,'red'),colored(' '.join([token.word for token in self.tokens]),'green')) +'\n'+'\n'.join([repr(token) for token in self.tokens])
+		return  '%s--> %s'%(colored(self.text,'red'),colored(' '.join([token.word for token in self.tokens]),'green'))
