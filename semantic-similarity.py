@@ -1,5 +1,6 @@
 import itertools
 import random 
+import json
 
 from SemanticString import SemanticString
 from nltk.corpus import wordnet
@@ -11,6 +12,10 @@ from progress.bar import Bar
 import matplotlib.pyplot as plt
 import numpy as np
 
+filename = 'semantic-distance-database.json'
+READ = 'rb'
+WRITE = 'wb'
+ref = json.load(open(filename,READ))
 fname = "positive-control_.txt"
 with open(fname) as f:
 	db = [string.strip() 
@@ -26,11 +31,13 @@ bar = Bar('Calulating semantic distance', max=len(corpus)*(len(corpus)+1)/2)
 for i in xrange(len(corpus)):
 	for j in xrange(i):
 
- 		similarity[i,j] = SemanticString(corpus[i]) - SemanticString(corpus[j])
+ 		similarity[i,j] = SemanticString(corpus[i],ref) - SemanticString(corpus[j],ref)
 
  		bar.next()
 	bar.next()
 bar.finish()
+
+json.dump(db,open(filename,WRITE))	
 
 M = similarity
 M += similarity.transpose()

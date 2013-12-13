@@ -17,7 +17,7 @@ punctuation = set(string.punctuation) #Can make more efficient with a translator
 class SemanticString(object):
 	def __init__(self, text,db):
 		self.text = text
-		self.db = db
+		self.db=db
 		self.tokens = [sw.SemanticWord(token,part_of_speech,self.db) 
 						for token,part_of_speech in pos_tag(word_tokenize(text))
 						if token not in punctuation and token not in stopwords]			
