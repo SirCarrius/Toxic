@@ -1,6 +1,7 @@
 import time,tweepy,sys,json
 
 from Listener import Listener
+import os
 
 class Twitter(object):
 	def __init__(self,query):
@@ -21,7 +22,8 @@ class Twitter(object):
 		print 'Streaming started...'
 
 		try:
-			self.stream.filter(track=self.query)
+			self.stream.filter(
+				track=self.query,languages=['en'])
 		except AttributeError as inst:
 			print inst
 			self.stream.disconnect()

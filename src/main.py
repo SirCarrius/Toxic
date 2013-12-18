@@ -3,6 +3,7 @@ import json, os
 from api.Twitter import Twitter
 from nlp import SemanticDistance as SD
 from nlp.json_to_text import TwitterRecord
+from visualization.visualization import SemanticVisualization
 
 keywords = ['bob']
 trigger = '-'.join(keywords)
@@ -33,7 +34,13 @@ else:
 	print 'Text already extracted for %s'%(trigger)
 
 #Calculate semantic distance
-corpus_name = '../data/%s.txt'%(trigger)
-SD.SemanticDistance(corpus_name)
+similarity_filename = '../data/%s.similarity-matrix-tsv'%trigger
+
+if not os.path.isfile(similarity_filename):
+	corpus_name = '../data/%s.txt'%(trigger)
+	SD.SemanticDistance(corpus_name)
 
 #Visualize results
+
+visualization = SemanticVisualization(trigger)
+visualization.heatmap(show=True)

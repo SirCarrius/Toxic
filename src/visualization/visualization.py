@@ -1,8 +1,34 @@
+import numpy as np
 import matplotlib.pyplot as plt
 
-		fig,(dist,ax) = plt.subplots(nrows=1,ncols=2)
-		cax = ax.imshow(np.sort(M,axis=0), interpolation = 'nearest', aspect='auto', vmin=0,vmax=1)
+from matplotlib import rcParams
+rcParams['text.usetex'] = True
+
+
+class SemanticVisualization(object):
+
+	def __init__(self,trigger, delimiter = '\t'):
+		self.trigger = trigger
+		self.filename = '../data/%s.similarity-matrix-tsv'%(trigger)
+		#again with the dangerous path constructions	
+		self.delimiter = delimiter
+
+		self.data = np.loadtxt(self.filename,delimiter=self.delimiter)
+
+	def heatmap(self,ax=None, show=False,savename=None):
+
+		if not ax:
+			fig = plt.figure()
+			ax = fig.add_subplot(111)
+
+		cax = ax.imshow(self.data,interpolation='nearest',aspect='auto')
+		ax.set_ylabel(r'\Large \textbf{Comment}')
+		ax.set_xlabel(r'\Large \textbf{Comment}')
+		ax.set_title(r'\Large \textbf{Similarity of tweets about %s}'%self.trigger)
 		plt.colorbar(cax)
-		dist.hist(np.ravel(similarity[similarity!=0]),bins=200,histtype='step',color='k', cumulative=True, range=(0,1))
 		plt.tight_layout()
-		plt.show()
+		if savename:
+			plt.savefig('%.png'%savename,dpi=200)
+		if show:
+			plt.show()
+

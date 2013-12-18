@@ -20,6 +20,9 @@ class SemanticDistance(object):
 		with open(self.filenames['corpus']) as f:
 			self.corpus = [string.strip() for string in f.readlines()]
 
+		#Remove non-English tweets
+		
+
 		self.similarity = np.zeros((len(self.corpus),len(self.corpus)))
 
 		#TODO filter out words with low tf-idf <-- Does this make sense?
