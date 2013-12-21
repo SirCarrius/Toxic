@@ -5,7 +5,7 @@ from tweepy import Stream
 
 class Listener(StreamListener):
 
-	def __init__(self,filename, ceiling=40):
+	def __init__(self,filename, ceiling=400):
 		self.ceiling = ceiling
 		self.trigger = filename
 		super(Listener,self).__init__()
@@ -41,7 +41,7 @@ class Listener(StreamListener):
 
 	def on_status(self, status):
 		self.counter += 1
-		if self.counter%20 ==0:
+		if self.counter%400 ==0:
 			self.output.write(status)	
 			self.output.write(']')
 			self.output.close()

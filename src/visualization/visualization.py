@@ -9,11 +9,11 @@ class SemanticVisualization(object):
 
 	def __init__(self,trigger, delimiter = '\t'):
 		self.trigger = trigger
-		self.filename = '../data/%s.similarity-matrix-tsv'%(trigger)
+		self.filename = '/Volumes/My Book/Toxic/data/%s.similarity-matrix-tsv'%(trigger)
 		#again with the dangerous path constructions	
 		self.delimiter = delimiter
 
-		self.data = np.loadtxt(self.filename,delimiter=self.delimiter)
+		self.data = np.loadtxt(self.filename,delimiter=self.delimiter, dtype='str')
 
 	def heatmap(self,ax=None, show=False,savename=None):
 
@@ -32,3 +32,5 @@ class SemanticVisualization(object):
 		if show:
 			plt.show()
 
+x = SemanticVisualization(trigger='alcohol')
+x.heatmap(show=True)

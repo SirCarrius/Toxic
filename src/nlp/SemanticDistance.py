@@ -14,7 +14,7 @@ class SemanticDistance(object):
 		self.filenames = {'corpus':path_to_corpus,'database':'../data/semantic-distance-database.json'}
 		self.READ = 'rb'
 		self.WRITE = 'wb'
-		
+		self.filename = '/Volumes/My Book/Toxic/data/%s.similarity-matrix-tsv'%(self.filenames['corpus'].rstrip('.txt'))
 		self.database = json.load(open(self.filenames['database'],self.READ))
 
 		with open(self.filenames['corpus']) as f:
@@ -22,10 +22,12 @@ class SemanticDistance(object):
 
 		#Remove non-English tweets
 		
-
-		self.similarity = np.zeros((len(self.corpus),len(self.corpus)))
-
+		print 'Creating array'
+		#self.similarity = np.zeros((len(self.corpus),len(self.corpus)))
+		self.similarity = np.memmap(self.filename,dtype='float32',mode='w+',
+			shape=(len(self.corpus),len(self.corpus)))
 		#TODO filter out words with low tf-idf <-- Does this make sense?
+
 
 		self.bar = Bar('Calulating semantic distance', max=len(self.corpus)*(len(self.corpus)+1)/2)
 		for i in xrange(len(self.corpus)):
@@ -39,7 +41,8 @@ class SemanticDistance(object):
 
 		json.dump(self.database,open(self.filenames['database'],self.WRITE))	
 
-		self.M = self.similarity
-		self.M += self.similarity.transpose()
-		self.M[np.diag_indices(len(self.corpus))] = 1
-		np.savetxt('%s.similarity-matrix-tsv'%(self.filenames['corpus'].rstrip('.txt')),self.M,fmt='%.04f',delimiter='\t')
+		self.similarity += self.similarity.transpose()
+		self.similarity[np.diag_indices(len(self.corpus))] = 1
+		#np.savetxt('%s.similarity-matrix-tsv'%(self.filenames['corpus'].rstrip('.txt')),self.M,fmt='%.04f',delimiter='\t')
+		del self.similarity #Del also flushes a memmap to disk
+		self.similarity.close()
