@@ -1,15 +1,8 @@
-Toxic (0.5.0)
+Toxic (1.0.0)
 =======
 
 Tools for Syndromic Surveillance using Social Media
 
-This version calculates:
-
-1. Semantic distance
-
-TODO:
-(How to include all python files in a directory.)
-(Explanation of semantic distance.)
 
 Semantic distance
 -----------------
