@@ -1,4 +1,5 @@
 import json, os
+import time
 
 from api.Twitter import Twitter
 from nlp import SemanticDistance as SD
@@ -55,7 +56,7 @@ visualization.heatmap(show=True)
 #time.strftime("%H:%M:%S") (24 hr)
 #date time.strftime("%d/%m/%Y")
 
-filename_suffix = '.PNG'
+filename_suffix = 'PNG'
 base_filename = time.strftime("%H_%M_%S") + '_' + time.strftime("%d_%m_%Y")
 folder_name = '/Desktop/Toxic/data'%trigger #I don't think folders have an extension..
 picture_name = os.path.join(folder_name, base_filename + "." + filename_suffix)
