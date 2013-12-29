@@ -44,3 +44,26 @@ if not os.path.isfile(similarity_filename):
 
 visualization = SemanticVisualization(trigger)
 visualization.heatmap(show=True)
+
+#use date time and year
+#see if the folder and the file are alredy created
+#trigger = folder; 24 hr clock
+#pass it as an argument to heatmap last one
+#http://www.cyberciti.biz/faq/howto-get-current-date-time-in-python/
+#http://stackoverflow.com/questions/273192/create-directory-if-it-doesnt-exist-for-file-write 
+#http://stackoverflow.com/questions/7132861/building-full-path-filename-in-python
+#time.strftime("%H:%M:%S") (24 hr)
+#date time.strftime("%d/%m/%Y")
+
+filename_suffix = '.PNG'
+base_filename = time.strftime("%H_%M_%S") + '_' + time.strftime("%d_%m_%Y")
+folder_name = '/Desktop/Toxic/data'%trigger #I don't think folders have an extension..
+picture_name = os.path.join(folder_name, base_filename + "." + filename_suffix)
+
+#make a new folder if it doesn't exist
+if not os.path.exists(folder_name):
+    os.makedirs(folder_name)
+	if not os.path.exists(picture_name):
+	 os.makedirs(picture_name)
+	 #save the picture
+	 visualization.heatmap(savename=picture_name)

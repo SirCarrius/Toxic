@@ -28,7 +28,7 @@ class SemanticVisualization(object):
 		plt.colorbar(cax)
 		plt.tight_layout()
 		if savename:
-			plt.savefig('%.png'%savename,dpi=200)
+			plt.savefig('%s.png'%savename,dpi=200)
 		if show:
 			plt.show()
 
