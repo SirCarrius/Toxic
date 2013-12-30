@@ -57,13 +57,13 @@ visualization.heatmap(show=True)
 #date time.strftime("%d/%m/%Y")
 
 filename_suffix = 'PNG'
-base_filename = time.strftime("%H_%M_%S") + '_' + time.strftime("%d_%m_%Y")
-folder_name = '/Desktop/Toxic/data'%trigger #I don't think folders have an extension..
+base_filename = time.strftime("%H_%M_%S_%d_%m_%Y")
+folder_name = '..data/%s'%trigger #%: putting something here; s: it's a string 
 picture_name = os.path.join(folder_name, base_filename + "." + filename_suffix)
 
 #make a new folder if it doesn't exist
-if not os.path.exists(folder_name):
-    os.makedirs(folder_name)
+#if not os.path.exists(folder_name):
+ #   os.makedirs(folder_name)
 	if not os.path.exists(picture_name):
 	 os.makedirs(picture_name)
 	 #save the picture
