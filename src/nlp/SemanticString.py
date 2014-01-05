@@ -14,13 +14,22 @@ stopwords = open('../data/stopwords',READ).readlines()
 
 punctuation = set(string.punctuation) #Can make more efficient with a translator table
 
+#create a list of emoticons
+CLASSIFIER = 'txt'
+emoticons = open('../data/emoticons', CLASSIFIER).readlines()
+EMO = 'emt'
+#regular expression: a group of punctuations containing no alphetical or numerical value
+#use regular expressions to pick out emoticons
+#might want to take out "if not in punctuation"
 class SemanticString(object):
 	def __init__(self, text,db):
 		self.text = text
-		self.db=db
-		self.tokens = [sw.SemanticWord(token,part_of_speech,self.db) 
-						for token,part_of_speech in pos_tag(word_tokenize(text))
-						if token not in punctuation and token not in stopwords]			
+		self.db=db #if it's emoticon use EMT if not use pos_tag
+		self.tokens = [sw.SemanticWord(token,part_of_speech,self.db) #pos_tag: creates a tuple (token, part_of_speech)
+						for token,part_of_speech in pos_tag(word_tokenize(text))#tokenize: breaks the sentence down into a list of words
+						if token not in punctuation and token not in stopwords and token not in emoticons						
+						for token, EMO in pos_tag(word_tokenize(text))
+						if token in emoticons and not in punctuation and token not in stopwords] #how do you tell if punctuations are not emoticons. "..." WE CARE	
 		self.tokens = filter(lambda token: not token.orphan,self.tokens)
 
 		self.synsets = [token.synset for token in self.tokens]
