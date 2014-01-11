@@ -57,7 +57,7 @@ visualization.heatmap(show=True)
 #date time.strftime("%d/%m/%Y")
 
 filename_suffix = 'PNG'
-base_filename = time.strftime("%H_%M_%S_%d_%m_%Y")
+base_filename = time.strftime("%Y-%m-%d-H-%M-%S")
 folder_name = '..data/%s'%trigger #%: putting something here; s: it's a string 
 picture_name = os.path.join(folder_name, base_filename + "." + filename_suffix)
 
