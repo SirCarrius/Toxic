@@ -50,7 +50,7 @@ class SemanticString(object):
 	  #doesn't really remove the whitespace that is its own element
 	  #but hey whitespace as its own element, or empty strings aren't words/emoticons. they will be ignored.
 	  #removing whitespace inside the words/emoticons make sure that we can always match something
-	  return wordList = [s.strip() for s in filter(None,re.split('(\W+)', comment))]
+	  return [s.strip() for s in filter(None,re.split('(\W+)', comment))]
 	  
 	  
 	  #re.split('(\W+)', '...words, words...') output:['', '...', 'words', ', ', 'words', '...', '']
